@@ -1,9 +1,15 @@
 package com.mini.entity;
 import java.io.Serializable;
 import java.time.LocalDate;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -27,15 +33,31 @@ public class UserAccounts implements Serializable {
 	private Long phoneNumber;
 	private String gender;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")// form backing pupose we are using it ex :-if we are not write this date won't populate 
+	@JsonFormat(pattern = "yyyy-MM-dd",shape = JsonFormat.Shape.STRING)
+	@JsonSerialize(using = LocalDateSerializer.class)
+	@JsonDeserialize(using=LocalDateDeserializer.class)
 	private LocalDate dob;
 	private long ssn;
 	private String activeSW;
 	@CreationTimestamp
 	@Column(updatable = false)
+	@JsonSerialize(using = LocalDateSerializer.class)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")// form backing pupose we are using it ex :-if we are not write this date won't populate 
+	@JsonFormat(pattern = "yyyy-MM-dd",shape = JsonFormat.Shape.STRING)
+	@JsonDeserialize(using=LocalDateDeserializer.class)
 	private LocalDate createdDate;
 	@UpdateTimestamp
 	@Column(insertable = false)
+	@JsonSerialize(using = LocalDateSerializer.class)
+	@JsonDeserialize(using=LocalDateDeserializer.class)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")// form backing pupose we are using it ex :-if we are not write this date won't populate 
+	@JsonFormat(pattern = "yyyy-MM-dd",shape = JsonFormat.Shape.STRING)
 	private LocalDate updatedDate;
+	
+	
+	public UserAccounts() {
+		super();
+	}
 	public LocalDate getDob() {
 		return dob;
 	}
@@ -96,9 +118,7 @@ public class UserAccounts implements Serializable {
 	public void setUpdatedDate(LocalDate updatedDate) {
 		this.updatedDate = updatedDate;
 	}
-	public UserAccounts() {
-		super();
-	}
+	
 	public Integer getUserId() {
 		return userId;
 	}
@@ -111,6 +131,7 @@ public class UserAccounts implements Serializable {
 				+ phoneNumber + ", gender=" + gender + ", dob=" + dob + ", ssn=" + ssn + ", ActiveSW=" + activeSW
 				+ ", createdDate=" + createdDate + ", updatedDate=" + updatedDate + "]";
 	}
+	
 
 	
 }
