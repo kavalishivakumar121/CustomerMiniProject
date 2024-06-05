@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.mini.constants.UserAccountsConstants;
 import com.mini.entity.UserAccounts;
 import com.mini.service.IUserService;
 
@@ -26,6 +27,10 @@ public class UserAccountController {
 	 
 	@Autowired
 	private IUserService userService;
+	
+	public final static String SUCCESS=UserAccountsConstants.ACCOUNT_REGISTER_SUCCESS;
+	public final static String UPDATED=UserAccountsConstants.ACCOUNT_UPDATED_SUCCESS;
+	
 	
 	@GetMapping("/")
 	public String index(Model model) {
@@ -42,10 +47,18 @@ public class UserAccountController {
 		logger.info(msg);
 		Integer userId=user.getUserId();
 		logger.info("user Id is :"+userId);
-		model.addAttribute("msg",msg+" with "+userId);
+		String message=msg+" with "+userId;
+		model.addAttribute("msg",message);
 		logger.info("message added to the model :"+msg);
 		model.addAttribute("user",new UserAccounts());//For not showing the form data after submition of the record.form data will be cleared.
+		if(msg.equals(SUCCESS)) {
+			return "index";
+		}
+		if(msg.equals(UPDATED)) {
+			return "redirect:/view-users";
+		}
 		return "index";
+		
 	}
 	
 	@GetMapping("/view-users")
@@ -57,10 +70,10 @@ public class UserAccountController {
 	}
 	
 	@GetMapping("/edit")
-	public String editUser(@RequestParam("id") Integer userId ,Model model) {
-		UserAccounts userAccountRecord = userService.getUserAccount(userId);
-		model.addAttribute("user",userAccountRecord);
-		return "index";
+	public String editUser(@RequestParam("id") Integer userId,  Model model) {
+		UserAccounts userAccount = userService.getUserAccount(userId);
+		model.addAttribute("user",userAccount);
+		return "updateAccount";
 	}
 	
 	@GetMapping("/delete")
