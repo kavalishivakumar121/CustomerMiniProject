@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+<<<<<<< HEAD
+=======
+
+>>>>>>> dd00e0d24f2fe4c1ea7da7c37e7959ddae8c5369
 import com.mini.constants.UserAccountsConstants;
 import com.mini.entity.UserAccounts;
 import com.mini.service.IUserService;
@@ -19,8 +23,16 @@ public class UserAccountController {
 	Logger logger=LoggerFactory.getLogger(UserAccountController.class);
 	@Autowired
 	private IUserService userService;
+<<<<<<< HEAD
 	public final static String SUCCESS=UserAccountsConstants.ACCOUNT_REGISTER_SUCCESS;
 	public final static String UPDATED=UserAccountsConstants.ACCOUNT_UPDATED_SUCCESS;
+=======
+	
+	public final static String SUCCESS=UserAccountsConstants.ACCOUNT_REGISTER_SUCCESS;
+	public final static String UPDATED=UserAccountsConstants.ACCOUNT_UPDATED_SUCCESS;
+	
+	
+>>>>>>> dd00e0d24f2fe4c1ea7da7c37e7959ddae8c5369
 	@GetMapping("/")
 	public String index(Model model) {
 		model.addAttribute("user",new UserAccounts());
@@ -44,6 +56,7 @@ public class UserAccountController {
 			return "redirect:/view-users";
 		}
 		return "index";
+		
 	}
 	@GetMapping("/view-users")
 	public String getUsers(Model model) {
